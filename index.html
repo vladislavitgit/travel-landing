@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#fcfaf7" />
+        <meta
+            name="description"
+            content="roundtheworld — путешествия в вашем ритме. Откройте Бали, Италию, Японию и другие направления. Подберите путешествие под себя."
+        />
+        <title>roundtheworld — навстречу новым историям</title>
+        <link rel="icon" href="./images/favicon.svg" type="image/svg+xml" />
+        <link rel="preload" as="image" href="./images/hero.jpg" fetchpriority="high" />
+        <link rel="stylesheet" href="./styles.css" />
+        <script>
+            history.scrollRestoration = 'manual';
+            if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+            window.addEventListener('pageshow', () => {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+            });
+            try {
+                const t = localStorage.getItem('roundtheworld-theme') || 'light';
+                document.documentElement.dataset.theme = t === 'dark' ? 'dark' : 'light';
+            } catch {}
+        </script>
+        <script defer src="./localization.js"></script>
+        <script defer src="./script.js"></script>
+    </head>
+    <body>
+        <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+                <symbol id="i-plane" viewBox="0 0 64 64">
+                    <g transform="rotate(-36 32 32)">
+                        <path
+                            d="M8 29 3 17l6 1 11 10 27-1c7 0 13 3 14 5-1 3-7 5-14 5l-27-1L9 46l-6 1 5-12Z"
+                            fill="currentColor"
+                            stroke="none"
+                        />
+                        <path d="m28 29-9-23 6 1 20 23m-17 5-9 23 6-1 20-23" fill="currentColor" stroke="none" />
+                        <path d="m48 29 5 1m-5 5 5-1" stroke="var(--bg, white)" stroke-width="2" />
+                        <path d="M24 32h18" stroke="var(--bg, white)" stroke-width="1" opacity=".5" />
+                    </g>
+                </symbol>
+                <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" /></symbol>
+                <symbol id="i-up-right" viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12" /></symbol>
+                <symbol id="i-pin" viewBox="0 0 24 24">
+                    <path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z" />
+                    <circle cx="12" cy="10" r="2.5" />
+                </symbol>
+                <symbol id="i-calendar" viewBox="0 0 24 24">
+                    <rect x="3" y="5" width="18" height="16" rx="3" />
+                    <path d="M7 3v4m10-4v4M3 11h18m-13 5h2" />
+                </symbol>
+                <symbol id="i-users" viewBox="0 0 24 24">
+                    <circle cx="9" cy="8" r="3" />
+                    <path d="M3 21v-3a6 6 0 0 1 12 0v3m1-16a3 3 0 0 1 0 6m3 10v-3a6 6 0 0 0-2-4" />
+                </symbol>
+                <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5" /></symbol>
+                <symbol id="i-sun" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="4" />
+                    <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" />
+                </symbol>
+                <symbol id="i-moon" viewBox="0 0 24 24">
+                    <path d="M20.8 13a9 9 0 1 1-9.8-9.8A7 7 0 0 0 20.8 13Z" />
+                </symbol>
+                <symbol id="i-globe" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9" />
+                    <ellipse cx="12" cy="12" rx="4" ry="9" />
+                    <path d="M3 12h18" />
+                </symbol>
+                <symbol id="i-search" viewBox="0 0 24 24">
+                    <circle cx="10.5" cy="10.5" r="6.5" />
+                    <path d="m16 16 5 5" />
+                </symbol>
+                <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></symbol>
+                <symbol id="i-compass" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="m16 8-2 6-6 2 2-6Z" />
+                </symbol>
+                <symbol id="i-heart" viewBox="0 0 24 24">
+                    <path
+                        d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"
+                    />
+                </symbol>
+                <symbol id="i-shield" viewBox="0 0 24 24">
+                    <path d="m12 3 9 4v6c0 5-9 9-9 9s-9-4-9-9V7Z" />
+                    <path d="m8 12 3 3 5-5" />
+                </symbol>
+                <symbol id="i-chat" viewBox="0 0 24 24">
+                    <path d="M21 11.5a9 9 0 0 1-9 9 10 10 0 0 1-4-.8L3 21l1.3-5a10 10 0 0 1-.8-4.5 9 9 0 0 1 17.5 0Z" />
+                    <path d="M8 11h8m-8 4h5" />
+                </symbol>
+                <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></symbol>
+                <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6" /></symbol>
+                <symbol id="i-leaf" viewBox="0 0 24 24">
+                    <path d="M20 3S6 1 4 11c-2 10 12 13 15 3 1-4 1-11 1-11ZM5 20 16 9" />
+                </symbol>
+            </defs>
+        </svg>
+
+        <a class="skip-link" href="#main" data-i18n="skip">Перейти к содержанию</a>
+        <header class="site-header">
+            <div class="container header-inner">
+                <a class="brand" href="#" aria-label="roundtheworld — домой">
+                    <svg aria-hidden="true" class="brand-plane"><use href="#i-plane" /></svg>
+                    <span>
+                        roundtheworld
+                        <span class="brand-dot">.</span>
+                    </span>
+                </a>
+                <nav class="desktop-nav" aria-label="Основная навигация" data-i18n-aria="navigation">
+                    <a href="#destinations" data-i18n="navDestinations">Направления</a>
+                    <a href="#approach" data-i18n="navAbout">Наш подход</a>
+                    <a href="#journey" data-i18n="navHow">Как это работает</a>
+                    <a href="#faq" data-i18n="navFaq">Вопросы</a>
+                </nav>
+                <div class="header-actions">
+                    <div class="theme-control">
+                        <button
+                            class="icon-button"
+                            id="theme-toggle"
+                            type="button"
+                            aria-label="Включить тёмную тему"
+                            aria-pressed="false"
+                        >
+                            <svg class="theme-sun" aria-hidden="true"><use href="#i-sun" /></svg>
+                            <svg class="theme-moon" aria-hidden="true"><use href="#i-moon" /></svg>
+                        </button>
+                    </div>
+                    <div class="language-control">
+                        <svg aria-hidden="true"><use href="#i-globe" /></svg>
+                        <select id="language" aria-label="Язык / Language / 语言">
+                            <option value="ru">Русский</option>
+                            <option value="en">English</option>
+                            <option value="zh">中文</option>
+                        </select>
+                        <svg aria-hidden="true" class="chevron"><use href="#i-chevron" /></svg>
+                    </div>
+                    <a class="button button-small header-cta" href="#contact">
+                        <span data-i18n="navContact">Хочу в путешествие</span>
+                        <svg aria-hidden="true"><use href="#i-up-right" /></svg>
+                    </a>
+                    <button
+                        class="icon-button mobile-toggle"
+                        id="mobile-toggle"
+                        aria-expanded="false"
+                        aria-controls="mobile-nav"
+                        aria-label="Открыть меню"
+                        data-i18n-aria="openMenu"
+                    >
+                        <svg aria-hidden="true"><use href="#i-menu" /></svg>
+                    </button>
+                </div>
+            </div>
+            <nav class="mobile-nav" id="mobile-nav" aria-label="Мобильная навигация" data-i18n-aria="navigation" hidden>
+                <a href="#destinations" data-i18n="navDestinations">Направления</a>
+                <a href="#approach" data-i18n="navAbout">Наш подход</a>
+                <a href="#journey" data-i18n="navHow">Как это работает</a>
+                <a href="#faq" data-i18n="navFaq">Вопросы</a>
+                <a href="#contact" data-i18n="navContact">Хочу в путешествие</a>
+            </nav>
+        </header>
+
+        <main id="main">
+            <section class="hero-shell" aria-labelledby="hero-title">
+                <div class="hero">
+                    <img
+                        class="hero-image"
+                        src="./images/hero.jpg"
+                        alt="Зелёные скалы и бирюзовый океан на острове Нуса-Пенида, Бали"
+                        data-i18n-alt="heroAlt"
+                        width="2200"
+                        height="1467"
+                        fetchpriority="high"
+                    />
+                    <div class="hero-shade"></div>
+                    <div class="hero-content">
+                        <div class="eyebrow hero-eyebrow">
+                            <span class="tiny-sun">✳</span>
+                            <span data-i18n="heroEyebrow">Мир ближе, чем кажется</span>
+                        </div>
+                        <h1 id="hero-title">
+                            <span data-i18n="heroTitle1">Меньше планов.</span>
+                            <br />
+                            <span class="serif" data-i18n="heroTitle2">Больше открытий.</span>
+                        </h1>
+                        <p data-i18n="heroDescription">
+                            Вы собираете впечатления — мы собираем путешествие. В вашем ритме, с заботой о каждой
+                            детали.
+                        </p>
+                        <a class="button hero-button" href="#destinations">
+                            <span data-i18n="explore">Найти своё путешествие</span>
+                            <svg aria-hidden="true"><use href="#i-arrow" /></svg>
+                        </a>
+                        <div class="hero-bottom">
+                            <span class="hero-line"></span>
+                            <span data-i18n="heroBottom">За историями, которые останутся с вами</span>
+                        </div>
+                    </div>
+                    <div class="hero-coordinate">
+                        <svg aria-hidden="true"><use href="#i-pin" /></svg>
+                        <span data-i18n="heroLocation">Нуса-Пенида, Бали</span>
+                        <span class="coordinate-line"></span>
+                        <span>8°44′ S 115°28′ E</span>
+                    </div>
+                    <div class="hero-stamp" aria-hidden="true">
+                        <svg aria-hidden="true"><use href="#i-plane" /></svg>
+                        <span>
+                            LET’S GO
+                            <br />
+                            SOMEWHERE
+                        </span>
+                    </div>
+                    <a class="hero-discover" href="#destinations">
+                        <span>
+                            <small data-i18n="heroDiscoverLabel">ВАШ СЛЕДУЮЩИЙ МАРШРУТ</small>
+                            <strong data-i18n="heroDiscover">Туда, где вы ещё не были</strong>
+                        </span>
+                        <span class="round-arrow">
+                            <svg aria-hidden="true"><use href="#i-up-right" /></svg>
+                        </span>
+                    </a>
+                </div>
+                <form class="trip-search container" id="trip-search">
+                    <div class="search-field">
+                        <svg aria-hidden="true"><use href="#i-pin" /></svg>
+                        <span>
+                            <span class="field-caption" data-i18n="searchDestination">Куда отправимся?</span>
+                            <select
+                                id="search-destination"
+                                name="destination"
+                                aria-label="Направление"
+                                data-i18n-aria="destination"
+                            ></select>
+                        </span>
+                        <svg aria-hidden="true" class="chevron"><use href="#i-chevron" /></svg>
+                    </div>
+                    <div class="search-field">
+                        <svg aria-hidden="true"><use href="#i-calendar" /></svg>
+                        <span>
+                            <span class="field-caption" data-i18n="searchDate">Когда?</span>
+                            <select
+                                id="search-month"
+                                name="month"
+                                aria-label="Месяц поездки"
+                                data-i18n-aria="month"
+                            ></select>
+                        </span>
+                        <svg aria-hidden="true" class="chevron"><use href="#i-chevron" /></svg>
+                    </div>
+                    <div class="search-field">
+                        <svg aria-hidden="true"><use href="#i-users" /></svg>
+                        <span>
+                            <span class="field-caption" data-i18n="searchPeople">С кем?</span>
+                            <select
+                                id="search-people"
+                                name="people"
+                                aria-label="Количество путешественников"
+                                data-i18n-aria="people"
+                            ></select>
+                        </span>
+                        <svg aria-hidden="true" class="chevron"><use href="#i-chevron" /></svg>
+                    </div>
+                    <button class="button search-button" type="submit">
+                        <svg aria-hidden="true"><use href="#i-search" /></svg>
+                        <span data-i18n="searchButton">Подобрать тур</span>
+                    </button>
+                </form>
+            </section>
+
+            <div class="container promise-strip">
+                <span>
+                    <svg aria-hidden="true"><use href="#i-compass" /></svg>
+                    <span data-i18n="promise1">Маршруты с характером</span>
+                </span>
+                <span>
+                    <svg aria-hidden="true"><use href="#i-heart" /></svg>
+                    <span data-i18n="promise2">Забота в каждой детали</span>
+                </span>
+                <span>
+                    <svg aria-hidden="true"><use href="#i-shield" /></svg>
+                    <span data-i18n="promise3">Прозрачные условия</span>
+                </span>
+                <span>
+                    <svg aria-hidden="true"><use href="#i-leaf" /></svg>
+                    <span data-i18n="promise4">Впечатления вместо суеты</span>
+                </span>
+            </div>
+
+            <section
+                class="section destinations-section container"
+                id="destinations"
+                aria-labelledby="destinations-title"
+            >
+                <div class="section-heading reveal">
+                    <div>
+                        <span class="eyebrow">
+                            <span class="eyebrow-line"></span>
+                            <span data-i18n="destEyebrow">Вдохновение для вашего отпуска</span>
+                        </span>
+                        <h2 id="destinations-title">
+                            <span data-i18n="destTitle1">Ваше следующее</span>
+                            <br />
+                            <span class="serif text-accent" data-i18n="destTitle2">«как же здесь красиво».</span>
+                        </h2>
+                    </div>
+                    <p data-i18n="destDescription">
+                        Солёный ветер, незнакомые улочки или завтрак с видом на горы. Выберите, что ближе вам.
+                    </p>
+                </div>
+                <div class="catalog-toolbar">
+                    <div class="filter-tabs" role="group" aria-label="Тип отдыха" data-i18n-aria="filterType">
+                        <button class="filter-tab active" data-filter="all" aria-pressed="true" data-i18n="filterAll">
+                            Все направления
+                        </button>
+                        <button class="filter-tab" data-filter="beach" aria-pressed="false" data-i18n="filterBeach">
+                            У моря
+                        </button>
+                        <button
+                            class="filter-tab"
+                            data-filter="adventure"
+                            aria-pressed="false"
+                            data-i18n="filterAdventure"
+                        >
+                            За приключениями
+                        </button>
+                        <button class="filter-tab" data-filter="culture" aria-pressed="false" data-i18n="filterCulture">
+                            За культурой
+                        </button>
+                    </div>
+                    <span class="catalog-note" data-i18n="catalogNote">Вдохновляйтесь. Остальное — за нами.</span>
+                </div>
+                <p class="search-status" id="search-status" role="status" hidden></p>
+                <div class="destinations-grid" id="destinations-grid"></div>
+                <div class="catalog-bottom">
+                    <p data-i18n="priceNote">
+                        Примерные цены на человека при размещении вдвоём. Итоговая стоимость зависит от дат и состава
+                        поездки.
+                    </p>
+                    <button class="text-button" id="show-more">
+                        <span data-i18n="showMore">Ещё больше открытий</span>
+                        <svg aria-hidden="true"><use href="#i-arrow" /></svg>
+                    </button>
+                </div>
+            </section>
+
+            <section class="approach-section" id="approach" aria-labelledby="approach-title">
+                <div class="container approach-grid">
+                    <div class="approach-visual reveal">
+                        <img
+                            src="./images/story.jpg"
+                            alt="Тропический курорт с бассейном и пальмами"
+                            data-i18n-alt="storyAlt"
+                            width="1200"
+                            height="800"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                        <div class="photo-caption">
+                            <svg aria-hidden="true"><use href="#i-sun" /></svg>
+                            <span data-i18n="photoCaption">У каждого счастья свои координаты.</span>
+                        </div>
+                        <div class="visual-tag">
+                            <span class="tiny-sun">✳</span>
+                            <span data-i18n="visualTag">
+                                МЕСТО ДЛЯ ВАШИХ
+                                <br />
+                                НОВЫХ ИСТОРИЙ
+                            </span>
+                        </div>
+                    </div>
+                    <div class="approach-copy reveal">
+                        <span class="eyebrow">
+                            <span class="eyebrow-line"></span>
+                            <span data-i18n="aboutEyebrow">Не просто точка на карте</span>
+                        </span>
+                        <h2 id="approach-title">
+                            <span data-i18n="aboutTitle1">Путешествие,</span>
+                            <br />
+                            <span class="serif" data-i18n="aboutTitle2">в котором есть вы.</span>
+                        </h2>
+                        <p class="section-description" data-i18n="aboutDescription">
+                            Кому-то нужен рассвет в горах. Кому-то — ни одного будильника. Мы начинаем не с отеля, а с
+                            вопроса: «А как хотите вы?»
+                        </p>
+                        <div class="approach-item">
+                            <span class="outline-icon">
+                                <svg aria-hidden="true"><use href="#i-compass" /></svg>
+                            </span>
+                            <div>
+                                <h3 data-i18n="benefit1Title">Ваш ритм, ваш маршрут</h3>
+                                <p data-i18n="benefit1Text">
+                                    Подберём направление, отель и впечатления под ваши интересы, а не под готовый
+                                    шаблон.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="approach-item">
+                            <span class="outline-icon">
+                                <svg aria-hidden="true"><use href="#i-shield" /></svg>
+                            </span>
+                            <div>
+                                <h3 data-i18n="benefit2Title">Всё понятно с самого начала</h3>
+                                <p data-i18n="benefit2Text">
+                                    Обсудим бюджет, что входит в поездку и какие расходы стоит предусмотреть отдельно.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="approach-item">
+                            <span class="outline-icon">
+                                <svg aria-hidden="true"><use href="#i-chat" /></svg>
+                            </span>
+                            <div>
+                                <h3 data-i18n="benefit3Title">На связи, когда это нужно</h3>
+                                <p data-i18n="benefit3Text">
+                                    Поможем разобраться с подготовкой, документами и вопросами по маршруту.
+                                </p>
+                            </div>
+                        </div>
+                        <a href="#contact" class="text-button">
+                            <span data-i18n="aboutCta">Давайте познакомимся</span>
+                            <svg aria-hidden="true"><use href="#i-up-right" /></svg>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section journey-section container" id="journey" aria-labelledby="journey-title">
+                <div class="section-heading reveal">
+                    <div>
+                        <span class="eyebrow">
+                            <span class="eyebrow-line"></span>
+                            <span data-i18n="howEyebrow">От «хочу» до «я здесь»</span>
+                        </span>
+                        <h2 id="journey-title">
+                            <span data-i18n="howTitle1">Большое путешествие.</span>
+                            <br />
+                            <span class="serif text-accent" data-i18n="howTitle2">Три простых шага.</span>
+                        </h2>
+                    </div>
+                    <a href="#contact" class="button button-outline">
+                        <span data-i18n="howCta">Сделать первый шаг</span>
+                        <svg aria-hidden="true"><use href="#i-arrow" /></svg>
+                    </a>
+                </div>
+                <div class="steps-grid">
+                    <article class="step reveal">
+                        <div class="step-top">
+                            <span class="step-number">01</span>
+                            <svg aria-hidden="true"><use href="#i-chat" /></svg>
+                        </div>
+                        <h3 data-i18n="step1Title">Расскажите о мечте</h3>
+                        <p data-i18n="step1Text">
+                            Куда тянет, когда хочется уехать, с кем и на какой бюджет. Можно просто: «Хочу к морю».
+                        </p>
+                    </article>
+                    <article class="step reveal">
+                        <div class="step-top">
+                            <span class="step-number">02</span>
+                            <svg aria-hidden="true"><use href="#i-compass" /></svg>
+                        </div>
+                        <h3 data-i18n="step2Title">Выберите своё</h3>
+                        <p data-i18n="step2Text">
+                            Рассмотрите варианты, задайте вопросы. Вместе уточним детали и соберём ваш маршрут.
+                        </p>
+                    </article>
+                    <article class="step reveal">
+                        <div class="step-top">
+                            <span class="step-number">03</span>
+                            <svg aria-hidden="true"><use href="#i-plane" /></svg>
+                        </div>
+                        <h3 data-i18n="step3Title">Собирайте впечатления</h3>
+                        <p data-i18n="step3Text">
+                            Согласуем бронирование и документы. Вам останется предвкушать поездку и собирать чемодан.
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="faq-section container" id="faq" aria-labelledby="faq-title">
+                <div class="faq-intro reveal">
+                    <span class="eyebrow">
+                        <span class="eyebrow-line"></span>
+                        <span data-i18n="faqEyebrow">Чтобы было спокойнее</span>
+                    </span>
+                    <h2 id="faq-title">
+                        <span data-i18n="faqTitle1">Хорошие вопросы.</span>
+                        <br />
+                        <span class="serif" data-i18n="faqTitle2">Честные ответы.</span>
+                    </h2>
+                    <p data-i18n="faqDescription">Не нашли свой ответ? Напишите нам — разберёмся вместе.</p>
+                    <a href="#contact" class="text-button">
+                        <span data-i18n="faqCta">Задать вопрос</span>
+                        <svg aria-hidden="true"><use href="#i-arrow" /></svg>
+                    </a>
+                </div>
+                <div class="faq-list reveal">
+                    <details>
+                        <summary>
+                            <span data-i18n="faq1Q">Можно ли собрать индивидуальный маршрут?</span>
+                            <span class="faq-plus"></span>
+                        </summary>
+                        <p data-i18n="faq1A">
+                            Да. Расскажите, какие места, занятия и темп вам нравятся. На основе пожеланий можно собрать
+                            поездку с несколькими городами, пляжным отдыхом или необычными впечатлениями.
+                        </p>
+                    </details>
+                    <details>
+                        <summary>
+                            <span data-i18n="faq2Q">Что входит в стоимость путешествия?</span>
+                            <span class="faq-plus"></span>
+                        </summary>
+                        <p data-i18n="faq2A">
+                            Состав зависит от предложения. Перед бронированием отдельно согласовываются перелёт,
+                            размещение, питание, трансфер, страховка и экскурсии. В карточках указаны ориентиры, а не
+                            окончательная стоимость.
+                        </p>
+                    </details>
+                    <details>
+                        <summary>
+                            <span data-i18n="faq3Q">Вы помогаете с визами и документами?</span>
+                            <span class="faq-plus"></span>
+                        </summary>
+                        <p data-i18n="faq3A">
+                            Подскажем, какие документы нужно проверить для выбранного направления и гражданства. Визовые
+                            требования и сроки уточняются перед бронированием; решение о выдаче визы принимает
+                            консульство.
+                        </p>
+                    </details>
+                    <details>
+                        <summary>
+                            <span data-i18n="faq4Q">Можно ли путешествовать с детьми?</span>
+                            <span class="faq-plus"></span>
+                        </summary>
+                        <p data-i18n="faq4A">
+                            Конечно. Укажите возраст детей в комментарии к заявке. Это поможет подобрать удобный
+                            перелёт, подходящий отель и маршрут с комфортным темпом для всей семьи.
+                        </p>
+                    </details>
+                    <details>
+                        <summary>
+                            <span data-i18n="faq5Q">Заявка обязывает покупать тур?</span>
+                            <span class="faq-plus"></span>
+                        </summary>
+                        <p data-i18n="faq5A">
+                            Нет. Заявка — это первый шаг к обсуждению поездки. Бронирование и оплата возможны только
+                            после отдельного согласования всех условий.
+                        </p>
+                    </details>
+                </div>
+            </section>
+
+            <section class="contact-section" id="contact" aria-labelledby="contact-title">
+                <div class="container contact-grid">
+                    <div class="contact-copy reveal">
+                        <span class="eyebrow">
+                            <span class="eyebrow-line"></span>
+                            <span data-i18n="contactEyebrow">Всё начинается с разговора</span>
+                        </span>
+                        <h2 id="contact-title">
+                            <span data-i18n="contactTitle1">Пора туда,</span>
+                            <br />
+                            <span class="serif" data-i18n="contactTitle2">где вам хорошо.</span>
+                        </h2>
+                        <p data-i18n="contactDescription">
+                            Расскажите, о чём мечтаете. Подберём путешествие, ради которого захочется поставить телефон
+                            в авиарежим.
+                        </p>
+                        <div class="contact-points">
+                            <span>
+                                <svg aria-hidden="true"><use href="#i-check" /></svg>
+                                <span data-i18n="contactPoint1">Подбор под ваши пожелания</span>
+                            </span>
+                            <span>
+                                <svg aria-hidden="true"><use href="#i-check" /></svg>
+                                <span data-i18n="contactPoint2">Без обязательств и спешки</span>
+                            </span>
+                        </div>
+                        <div class="contact-illustration" aria-hidden="true">
+                            <svg aria-hidden="true" class="flight-path" viewBox="0 0 400 130">
+                                <path d="M5 100C70 130 200 110 190 55S100 50 150 85 300 65 355 15" /></svg
+                            ><svg aria-hidden="true" class="contact-plane"><use href="#i-plane" /></svg>
+                            <span>life is a journey.</span>
+                        </div>
+                    </div>
+                    <form class="contact-form reveal" id="contact-form" novalidate>
+                        <div class="form-heading">
+                            <h3 data-i18n="formTitle">Начнём с вашей мечты</h3>
+                            <span data-i18n="formSubtitle">Пара деталей — и мы на одной волне.</span>
+                        </div>
+                        <div class="form-row">
+                            <label class="form-field">
+                                <span data-i18n="formName">Как вас зовут? *</span>
+                                <input
+                                    name="name"
+                                    id="contact-name"
+                                    autocomplete="given-name"
+                                    maxlength="80"
+                                    required
+                                    placeholder="Ваше имя"
+                                    data-i18n-placeholder="namePlaceholder"
+                                />
+                                <span class="field-error" id="error-name"></span>
+                            </label>
+                            <label class="form-field">
+                                <span data-i18n="formContact">Телефон или email *</span>
+                                <input
+                                    name="contact"
+                                    id="contact-detail"
+                                    autocomplete="email"
+                                    maxlength="120"
+                                    required
+                                    placeholder="Как с вами связаться"
+                                    data-i18n-placeholder="contactPlaceholder"
+                                />
+                                <span class="field-error" id="error-contact"></span>
+                            </label>
+                        </div>
+                        <label class="form-field select-form-field">
+                            <span data-i18n="formOffer">Какое путешествие вас интересует? *</span>
+                            <span class="select-wrap">
+                                <select
+                                    name="offer"
+                                    id="contact-offer"
+                                    required
+                                    aria-describedby="error-offer"
+                                ></select>
+                                <svg aria-hidden="true"><use href="#i-chevron" /></svg>
+                            </span>
+                            <span class="field-error" id="error-offer"></span>
+                        </label>
+                        <p class="trip-summary" id="trip-summary" hidden></p>
+                        <label class="form-field">
+                            <span data-i18n="formMessage">
+                                Пожелания к поездке
+                                <small data-i18n="optional">(необязательно)</small>
+                            </span>
+                            <textarea
+                                name="message"
+                                id="contact-message"
+                                rows="3"
+                                maxlength="2000"
+                                placeholder="Даты, город вылета, попутчики — всё, что важно для вас"
+                                data-i18n-placeholder="messagePlaceholder"
+                            ></textarea>
+                        </label>
+
+                        <label class="consent">
+                            <input type="checkbox" name="consent" id="contact-consent" required />
+                            <span>
+                                <span data-i18n="consentText">Я согласен с</span>
+                                <button type="button" id="privacy-open" data-i18n="privacyLink">
+                                    политикой обработки данных
+                                </button>
+                            </span>
+                        </label>
+                        <span class="field-error" id="error-consent"></span>
+                        <button type="submit" class="button form-submit">
+                            <span data-i18n="formSubmit">Отправить запрос</span>
+                            <svg aria-hidden="true"><use href="#i-up-right" /></svg>
+                        </button>
+                        <p class="form-demo-note" data-i18n="formNote">
+                            Демонстрационная форма: данные никуда не отправляются и не сохраняются.
+                        </p>
+                        <div id="form-status" class="form-status" role="status" aria-live="polite" hidden></div>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="footer-top">
+                    <a class="brand" href="#" aria-label="roundtheworld">
+                        <svg aria-hidden="true" class="brand-plane"><use href="#i-plane" /></svg>
+                        <span>
+                            roundtheworld
+                            <span class="brand-dot">.</span>
+                        </span>
+                    </a>
+                    <p data-i18n="footerTagline">Ближе к миру. Ближе к себе.</p>
+                    <a href="#main" class="back-top">
+                        <span data-i18n="backTop">Наверх</span>
+                        <svg aria-hidden="true"><use href="#i-up-right" /></svg>
+                    </a>
+                </div>
+                <div class="footer-bottom">
+                    <span>
+                        ©
+                        <span id="year">2026</span>
+                        roundtheworld
+                        <span data-i18n="footerConcept">— концепт туристического агентства.</span>
+                    </span>
+                    <span data-i18n="footerNote">Предложения иллюстративные и не являются публичной офертой.</span>
+                    <button class="footer-privacy" id="privacy-footer" data-i18n="privacyShort">
+                        Конфиденциальность
+                    </button>
+                </div>
+            </div>
+        </footer>
+
+        <dialog id="privacy-dialog" aria-labelledby="privacy-title">
+            <div class="dialog-heading">
+                <h2 id="privacy-title" data-i18n="privacyTitle">Ваши данные</h2>
+                <button class="icon-button" id="privacy-close" aria-label="Закрыть" data-i18n-aria="close">
+                    <svg aria-hidden="true"><use href="#i-close" /></svg>
+                </button>
+            </div>
+            <div class="privacy-body">
+                <p data-i18n="privacyText1">
+                    roundtheworld — демонстрационный проект. Форма проверяет заполнение полей только в вашем браузере.
+                    Имя, контакты и пожелания никуда не отправляются и не сохраняются.
+                </p>
+                <p data-i18n="privacyText2">
+                    Форма показывает пример запроса на подбор путешествия. Для проверки используйте вымышленные данные.
+                </p>
+                <p data-i18n="privacyText3">
+                    Выбранные язык и тема сохраняются только в вашем браузере. Аналитические и рекламные cookies не
+                    используются.
+                </p>
+            </div>
+            <button class="button" id="privacy-ok" data-i18n="privacyOk">Понятно</button>
+        </dialog>
+        <noscript>
+            <div class="noscript-note">
+                Для переключения языка и работы демоформы включите JavaScript. / Please enable JavaScript to use the
+                demo form and language selector.
+            </div>
+        </noscript>
+    </body>
+</html>

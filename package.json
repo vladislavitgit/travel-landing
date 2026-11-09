@@ -1,0 +1,11 @@
+{
+    "name": "travel-landing",
+    "version": "1.0.0",
+    "description": "roundtheworld — responsive travel agency landing page in Russian, English and Chinese",
+    "type": "module",
+    "scripts": {
+        "start": "python3 -m http.server 4173 --bind 127.0.0.1",
+        "check": "node --check script.js && node --check localization.js"
+    },
+    "private": true
+}
